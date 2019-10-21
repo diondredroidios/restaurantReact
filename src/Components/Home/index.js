@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import HomePageImage from "../../Utils/img/homepage.jpg";
+import './Home.css'
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -12,10 +13,10 @@ export default class Home extends React.Component {
 
     render() {
         return(
-            <div style={{backgroundImage: `url(${HomePageImage})`, height: '100vh', backgroundPosition: 'center'}}>
+            <div style={{backgroundImage: `url(${HomePageImage})`, height: '100vh', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                 <Col className="text-center" style={{height: '100%'}}>
                     <Link to="/menu">
-                        <Button variant="primary" style={{position: 'absolute', top: '50%'}}>
+                        <Button variant="primary" className="btn menubtn" >
                             Menu
                         </Button>
                     </Link>

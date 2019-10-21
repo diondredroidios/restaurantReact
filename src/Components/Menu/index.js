@@ -2,11 +2,12 @@ import React from 'react';
 import {
     Col,
     Card,
-    CardColumns,
+    CardGroup,
     Button
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import $ from "jquery";
+import './menu.css'
 
 export default class Menu extends React.Component {
     constructor(props) {
@@ -86,11 +87,15 @@ export default class Menu extends React.Component {
                 imageUrl += 'no-image-found.jpg';
             }
             return (
-                <Card key={key} onClick={() => this.sectionSelcted(singleSection)}>
-                    <Card.Img variant="top" src={imageUrl} />
-                    <Card.Body className="text-center">
-                        <Card.Title>{singleSection && singleSection.name && singleSection.name.en ? singleSection.name.en : 'No name available'}</Card.Title>
-                    </Card.Body>
+                <Card className="col-md-3" key={key} onClick={() => this.sectionSelcted(singleSection)}>
+                    <div className="col-md-12">
+                        <div className="col-md-12 image-section text-center">
+                            <Card.Img variant="top" src={imageUrl} />
+                        </div>
+                        <Card.Body className="text-center">
+                            <Card.Title>{singleSection && singleSection.name && singleSection.name.en ? singleSection.name.en : 'No name available'}</Card.Title>
+                        </Card.Body>
+                    </div>
                 </Card>
             )
         })
@@ -105,11 +110,15 @@ export default class Menu extends React.Component {
                 imageUrl += 'no-image-found.jpg';
             }
             return (
-                <Card key={key}>
-                    <Card.Img variant="top" src={imageUrl} />
-                    <Card.Body className="text-center">
-                        <Card.Title>{singleSection && singleSection.name && singleSection.name.en ? singleSection.name.en : 'No name available'}</Card.Title>
-                    </Card.Body>
+                <Card className="col-md-3" key={key}>
+                    <div className="col-md-12">
+                        <div className="col-md-12 image-section text-center">
+                            <Card.Img variant="top" src={imageUrl} />
+                        </div>
+                        <Card.Body className="text-center">
+                            <Card.Title>{singleSection && singleSection.name && singleSection.name.en ? singleSection.name.en : 'No name available'}</Card.Title>
+                        </Card.Body>
+                    </div>
                 </Card>
             )
         })
@@ -122,6 +131,8 @@ export default class Menu extends React.Component {
     }
 
     sectionSlider = () => {
+        const selectedSectionId = this.state.selectedSectionId;
+
         return this.state.menuSections.map((singleSectionItem) => {
             let imageUrl = 'http://localhost:3001/images/';
             if (singleSectionItem.image && singleSectionItem.image.asset && singleSectionItem.image.asset._ref) {
@@ -131,8 +142,8 @@ export default class Menu extends React.Component {
             }
 
             return (
-                <Col className="image col-md-2" onClick={() => this.sectionSelcted(singleSectionItem)}>
-                    <img src={imageUrl} />
+                <Col className={`image col-md-2 polaroid ${selectedSectionId === singleSectionItem._id ? 'active' : ''}`} onClick={() => this.sectionSelcted(singleSectionItem)}>
+                    <img src={imageUrl} style={{width:"100%",marginTop:"5px"}}/>
                     <p>
                         {singleSectionItem && singleSectionItem.name && singleSectionItem.name.en ? singleSectionItem.name.en : 'No name available'}
                     </p>
@@ -144,15 +155,19 @@ export default class Menu extends React.Component {
     render() {
         return(
             <div>
-                <div className="col-md-12 mb-20">
-                    <Link to="/home">
-                        <Button variant="primary">
+                <nav className="navbar navbar-dark bg-dark">
+                <a className="navbar-brand" href="#">
+                <Link to="/home">
+                        <Button variant="primary" style={{marginRight:"15px"}}>
                             Back
                         </Button>
                     </Link>
-                </div>
+                    Web App Title
+                </a>
+                </nav>
+               
 
-                <Col className="wrapper col-md-12">
+                <Col className="wrapper col-md-12" style={{margin:"10px"}}>
                     <a href="#" className="prev" onClick={this.scroll.bind(null,-1)}>&#10094;</a>
                     <div className="image-container">
                         {this.sectionSlider()}
@@ -160,14 +175,14 @@ export default class Menu extends React.Component {
                     <a href="#" className="next" onClick={this.scroll.bind(null,1)}>&#10095;</a>
                 </Col>
                 
-                <Col style={{marginTop: "10px"}}>
-                    <CardColumns>
+                <Col style={{marginTop: "20px",}}>
+                    <>
                         {
                             this.state.selectedSectionId !== '' ?
                                 this.dynamicItems() :
                                 this.dynamicSections()
                         }
-                    </CardColumns>
+                    </>
                 </Col>
             </div>
         )
